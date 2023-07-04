@@ -22,6 +22,10 @@ resource "aws_eks_cluster" "eks_cluster" {
     subnet_ids         = var.subnet_ids
     security_group_ids = [var.security_group]
   }
+
+  tags = {
+    Environment = var.environment
+  }
 }
 
 resource "aws_eks_node_group" "node_group" {
@@ -39,5 +43,9 @@ resource "aws_eks_node_group" "node_group" {
 
   instance_types = [var.ec2_instance_type]
   capacity_type  = "ON_DEMAND"
+
+  tags = {
+    Environment = var.environment
+  }
 }
  
