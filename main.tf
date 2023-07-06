@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "s3bucket" {
 
   tags = {
     Environment = var.environment
-    bucketname  = "testBucketName"
+    bucketname  = local.bucketname
   }
 }
 
