@@ -7,11 +7,11 @@ spec:
   rules:
     - http:
         paths:
-          - path: /products
+          - path: /payments
             pathType: Prefix
             backend:
               service:
-                name: products-service
+                name: payments-service
                 port:
                   number: 80
           - path: /shipping
@@ -21,3 +21,11 @@ spec:
                 name: shipping-service
                 port:
                   number: 80
+          - path: /products
+            pathType: Prefix
+            backend:
+              service:
+                name: products-service
+                port:
+                  number: 80
+          
