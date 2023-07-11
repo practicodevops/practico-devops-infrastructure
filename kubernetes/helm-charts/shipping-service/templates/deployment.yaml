@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "shipping-chart.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "shipping-chart.selectorLabels" . | nindent 6 }}
