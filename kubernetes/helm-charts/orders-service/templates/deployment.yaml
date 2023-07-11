@@ -34,6 +34,13 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
+          env: 
+          - name: PAYMENT_SERVICE 
+            value: http://payments-service.default
+          - name: SHIPPING_SERVICE 
+            value: http://shipping-service.default
+          - name: PRODUCTS_SERVICE 
+            value: http://products-service.default
           # livenessProbe:
           #   httpGet:
           #     path: /
