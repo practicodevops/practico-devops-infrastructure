@@ -5,6 +5,7 @@ locals {
 
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = local.bucketname
+  force_destroy = true
 
   tags = {
     Environment = var.environment
@@ -32,6 +33,8 @@ resource "aws_s3_bucket_public_access_block" "s3_public_access" {
 resource "aws_s3_bucket_policy" "s3_policy" {
   bucket = aws_s3_bucket.s3_bucket.id
   policy = templatefile("policies/s3-policy.json", { bucket = local.bucketname })
+
+  depends_on = [ aws_s3_bucket_public_access_block.s3_public_access ]
 }
 
 resource "aws_eks_cluster" "eks_cluster" {
