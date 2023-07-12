@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: proyectodevopsem/orders-service
   pullPolicy: IfNotPresent
-  tag: latest
+  tag: ''
 
 imagePullSecrets: []
 nameOverride: ""
@@ -14,6 +14,14 @@ podAnnotations: {}
 podSecurityContext: {}
 
 securityContext: {}
+
+probes:
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 60
+  livenessProbe:
+    initialDelaySeconds: 15
+    periodSeconds: 60
 
 service:
   type: ClusterIP

@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: proyectodevopsem/payments-service
   pullPolicy: IfNotPresent
-  tag: latest
+  tag: ''
 
 imagePullSecrets: []
 nameOverride: ""
