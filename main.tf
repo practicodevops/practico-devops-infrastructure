@@ -3,14 +3,38 @@ locals {
   clustername = "eks-cluster-${var.environment}"
 }
 
-resource "aws_s3_bucket" "s3bucket" {
+resource "aws_s3_bucket" "s3_bucket" {
   bucket = local.bucketname
-  acl    = "private"
+  force_destroy = true
 
   tags = {
     Environment = var.environment
     bucketname  = local.bucketname
   }
+}
+
+resource "aws_s3_bucket_website_configuration" "s3_website_configuration" {
+  bucket = aws_s3_bucket.s3_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "s3_public_access" {
+  bucket = aws_s3_bucket.s3_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "s3_policy" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  policy = templatefile("policies/s3-policy.json", { bucket = local.bucketname })
+
+  depends_on = [ aws_s3_bucket_public_access_block.s3_public_access ]
 }
 
 resource "aws_eks_cluster" "eks_cluster" {
