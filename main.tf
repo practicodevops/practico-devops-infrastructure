@@ -32,7 +32,21 @@ resource "aws_s3_bucket_public_access_block" "s3_public_access" {
 
 resource "aws_s3_bucket_policy" "s3_policy" {
   bucket = aws_s3_bucket.s3_bucket.id
-  policy = templatefile("policies/s3-policy.json", { bucket = local.bucketname })
+  policy =  jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "",
+        "Effect" : "Allow",
+        "Principal" : "*",
+        "Action" : "s3:GetObject",
+        "Resource" : [
+          "arn:aws:s3:::${local.bucketname}",
+          "arn:aws:s3:::${local.bucketname}/*"
+        ]
+      }
+    ]
+  })
 
   depends_on = [ aws_s3_bucket_public_access_block.s3_public_access ]
 }
